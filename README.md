@@ -1,4 +1,4 @@
-# goit-socials
+# goit-socials-app
 
 install global expo cli: `npm install -g expo-cli`
 

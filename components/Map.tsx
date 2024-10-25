@@ -16,9 +16,7 @@ const Map = ({ item }) => {
       }}
       mapType="standard"
       minZoomLevel={15}
-      onMapReady={() => console.log("Map is ready")}
-      onRegionChange={() => console.log("Region change")}
-      // provider={PROVIDER_GOOGLE} // FIXME: Google Maps is not available on iOS
+      provider={PROVIDER_GOOGLE}
     >
       <Marker
         title={item?.pictureName}
@@ -27,6 +25,10 @@ const Map = ({ item }) => {
           longitude: item?.geoLocation?.longitude ?? 0,
         }}
         description={item?.locality}
+        draggable
+        onDragEnd={
+          (e) => console.log("New coordinates", e.nativeEvent.coordinate) //TODO: add functionality to update the coordinates
+        }
       />
     </MapView>
   );
