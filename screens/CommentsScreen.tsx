@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   View,
   Dimensions,
@@ -6,28 +7,38 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  Text,
 } from "react-native";
+import uuid from "react-native-uuid";
 import { colors } from "../styles/global";
 import Comment from "../components/Comment";
 import Input from "../components/Input";
 import SendButton from "../components/SendButton";
+import { postsActions } from "../redux/posts/postsSlice";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("screen");
 const pictureWidth = SCREEN_WIDTH - 32;
 const pictureHeight = pictureWidth * 0.7;
 
 const CommentsScreen = ({ navigation, route }) => {
-  const [userComment, setUserComment] = useState("");
+  const dispatch = useDispatch();
+  const [comment, setComment] = useState("");
   const { item } = route.params;
 
   const handleSendComment = () => {
     console.log("TODO: add functionality to send comment from authorized user");
-    if (!userComment) {
+    if (!comment) {
       alert("Please fill in field.");
       return;
     }
-    navigation.navigate("Posts", { userComment });
+    const userComment = {
+      id: uuid.v4(),
+      comment,
+      author: "Anonym", // TODO: replace with author data : { id: authorID, nickname: "User", avatar: "https://i.pravatar.cc/150" }
+      dateTime: "09 червня, 2020 | 08:40", // TODO: replace with current date
+    };
+
+    dispatch(postsActions.onAddComment({ id: item.id, comment: userComment }));
+    navigation.navigate("Posts");
   };
 
   const sendComment = (
@@ -61,10 +72,10 @@ const CommentsScreen = ({ navigation, route }) => {
         ItemSeparatorComponent={() => <View style={{ height: 24 }} />}
       />
       <Input
-        value={userComment}
+        value={comment}
         autofocus={true}
         placeholder="Коментувати..."
-        onTextChange={setUserComment}
+        onTextChange={setComment}
         rightButton={sendComment}
         outerStyles={{ borderRadius: 50 }}
       />

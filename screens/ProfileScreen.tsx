@@ -13,19 +13,21 @@ import { AntDesign } from "@expo/vector-icons";
 import { NavigationProp } from "@react-navigation/native";
 import { colors } from "../styles/global";
 import Post, { PostProps } from "../components/Post";
-import data from "../data/data";
 import LogoutButton from "../components/LogoutButton";
 import { authActions } from "../redux/auth/authSlice";
 import { selectUser } from "../redux/auth/authSelectors";
+import { selectPosts } from "../redux/posts/postsSelectors";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("screen");
 const avatarUrl =
-  "https://s3-alpha-sig.figma.com/img/d7eb/2439/565ee2bb708d7a3f27c90a7cd3c9f0fa?Expires=1730073600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=CtHVPTuQB2H3rFOE7XWaC-UpOHFHPtGobXLWgjCZkGnv38OwOtuZksAAt4O0c2e4mgipUcqb~vTWB7cKDdlAGQ4xZA~gJrBaCn7ZEuv6d0oqMbWVMpVGmw29YRZKhhAuHecwcnOmNpCdN4aL5MggbUPVQuB4~YpPgLQUBCaet4K4rZqSCVSTGjydvpRnzErE9SI-bSaYnH17T81foyjbpPlCnOCUekmgzWEsgMyZw-WrpfgYEFxOLnYvICU64wKKQC5cB6YLLDuEz9NyLtxnY23gudoSLAZDGeugJYvcNORusfoShaoasR6bCka3-MFRrz8krBxYac3jAJVoDRRjVQ__";
+  "https://s3-alpha-sig.figma.com/img/d7eb/2439/565ee2bb708d7a3f27c90a7cd3c9f0fa?Expires=1731283200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=KTQLAYuVQWqel0kgAaEdwxF9HrW8HHkoyKN7ci2UHo2VysK5vmXdB8mHzkslGUkLj7LXSkTfUQk86INSxUXqf5WGaw89We-iE7s8x2247acFwKjN73Gv2bB5t0-yY0aBMzWVHHZkcPXpz~F8puuejlZSRbZBRSG6jsL8ealNV7AZt--I-62LFcKQbi6ORl7aDaylwzcWn1~VwBBQh69OgnhvByIGxIg-17xF5KqNlRt2ibm-UZVqoaiWE3asFXNo17NE-6KpKx0Izh1SLsUkIlb9GjUeWd8hrnuxXwgba40Y-48ZBNZ0gHcta~YyVAvzcTry1w3eY1mwQ-9sF-uSbw__";
 
 const ProfileScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
   const dispatch = useDispatch();
 
   const getUser = useSelector(selectUser);
+
+  const getPosts = useSelector(selectPosts);
 
   const navigateToComments = (item: PostProps) => {
     navigation.navigate("Comments", { item });
@@ -92,10 +94,10 @@ const ProfileScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
             {getUser.nickname && getUser.nickname}
           </Text>
           <FlatList
-            data={data} // TODO: replace with user's posts
+            data={getPosts}
             renderItem={({ item }) => {
               return (
-                // TODO: update Post with prop likes
+                // TODO: update Post with prop "likes"
                 <Post
                   pictureUrl={item.pictureUrl}
                   pictureName={item.pictureName}

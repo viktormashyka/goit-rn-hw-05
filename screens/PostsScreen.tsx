@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { View, Text, StyleSheet, Image, FlatList } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import { colors } from "../styles/global";
 import { RouteProp } from "@react-navigation/native";
 import Post, { PostProps } from "../components/Post";
-import data from "../data/data";
 import { selectUser } from "../redux/auth/authSelectors";
+import { selectPosts } from "../redux/posts/postsSelectors";
+import { postsActions } from "../redux/posts/postsSlice";
 
 const avatarUrl =
-  "https://s3-alpha-sig.figma.com/img/d7eb/2439/565ee2bb708d7a3f27c90a7cd3c9f0fa?Expires=1730073600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=CtHVPTuQB2H3rFOE7XWaC-UpOHFHPtGobXLWgjCZkGnv38OwOtuZksAAt4O0c2e4mgipUcqb~vTWB7cKDdlAGQ4xZA~gJrBaCn7ZEuv6d0oqMbWVMpVGmw29YRZKhhAuHecwcnOmNpCdN4aL5MggbUPVQuB4~YpPgLQUBCaet4K4rZqSCVSTGjydvpRnzErE9SI-bSaYnH17T81foyjbpPlCnOCUekmgzWEsgMyZw-WrpfgYEFxOLnYvICU64wKKQC5cB6YLLDuEz9NyLtxnY23gudoSLAZDGeugJYvcNORusfoShaoasR6bCka3-MFRrz8krBxYac3jAJVoDRRjVQ__";
+  "https://s3-alpha-sig.figma.com/img/d7eb/2439/565ee2bb708d7a3f27c90a7cd3c9f0fa?Expires=1731283200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=KTQLAYuVQWqel0kgAaEdwxF9HrW8HHkoyKN7ci2UHo2VysK5vmXdB8mHzkslGUkLj7LXSkTfUQk86INSxUXqf5WGaw89We-iE7s8x2247acFwKjN73Gv2bB5t0-yY0aBMzWVHHZkcPXpz~F8puuejlZSRbZBRSG6jsL8ealNV7AZt--I-62LFcKQbi6ORl7aDaylwzcWn1~VwBBQh69OgnhvByIGxIg-17xF5KqNlRt2ibm-UZVqoaiWE3asFXNo17NE-6KpKx0Izh1SLsUkIlb9GjUeWd8hrnuxXwgba40Y-48ZBNZ0gHcta~YyVAvzcTry1w3eY1mwQ-9sF-uSbw__";
 
 type PostsScreenRouteProp = RouteProp<
-  { params: { user?: { email: string }; post?: PostProps } },
+  { params: { post?: PostProps; userComment?: string } },
   "params"
 >;
 
@@ -23,7 +24,9 @@ const PostsScreen = ({
   navigation: NavigationProp<any>;
   route: PostsScreenRouteProp;
 }) => {
-  const [posts, setPosts] = useState<PostProps[]>(data);
+  const dispatch = useDispatch();
+
+  const getPosts = useSelector(selectPosts);
 
   const getUser = useSelector(selectUser);
 
@@ -36,11 +39,13 @@ const PostsScreen = ({
 
   useEffect(() => {
     if (route.params?.post) {
-      setPosts((prev) => {
-        return [...prev, route.params.post!];
-      });
+      dispatch(postsActions.onAddPost(route.params.post!));
     }
-  }, [route.params?.post, route.params?.user]);
+
+    if (route.params?.userComment) {
+      dispatch(postsActions.onAddComment(route.params.userComment));
+    }
+  }, [route.params?.post, route.params?.userComment]);
 
   return (
     <View style={styles.container}>
@@ -71,7 +76,7 @@ const PostsScreen = ({
         </View>
       </View>
       <FlatList
-        data={posts}
+        data={getPosts}
         renderItem={({ item }) => {
           return (
             <Post
