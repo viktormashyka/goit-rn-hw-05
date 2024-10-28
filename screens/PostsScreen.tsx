@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { View, Text, StyleSheet, Image, FlatList } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import { colors } from "../styles/global";
 import { RouteProp } from "@react-navigation/native";
 import Post, { PostProps } from "../components/Post";
 import data from "../data/data";
+import { selectUser } from "../redux/auth/authSelectors";
 
 const avatarUrl =
   "https://s3-alpha-sig.figma.com/img/d7eb/2439/565ee2bb708d7a3f27c90a7cd3c9f0fa?Expires=1730073600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=CtHVPTuQB2H3rFOE7XWaC-UpOHFHPtGobXLWgjCZkGnv38OwOtuZksAAt4O0c2e4mgipUcqb~vTWB7cKDdlAGQ4xZA~gJrBaCn7ZEuv6d0oqMbWVMpVGmw29YRZKhhAuHecwcnOmNpCdN4aL5MggbUPVQuB4~YpPgLQUBCaet4K4rZqSCVSTGjydvpRnzErE9SI-bSaYnH17T81foyjbpPlCnOCUekmgzWEsgMyZw-WrpfgYEFxOLnYvICU64wKKQC5cB6YLLDuEz9NyLtxnY23gudoSLAZDGeugJYvcNORusfoShaoasR6bCka3-MFRrz8krBxYac3jAJVoDRRjVQ__";
@@ -23,6 +25,8 @@ const PostsScreen = ({
 }) => {
   const [posts, setPosts] = useState<PostProps[]>(data);
 
+  const getUser = useSelector(selectUser);
+
   const navigateToComments = (item: PostProps) => {
     navigation.navigate("Comments", { item });
   };
@@ -31,9 +35,6 @@ const PostsScreen = ({
   };
 
   useEffect(() => {
-    if (route.params?.user) {
-      console.log({ user: route.params.user });
-    }
     if (route.params?.post) {
       setPosts((prev) => {
         return [...prev, route.params.post!];
@@ -61,10 +62,11 @@ const PostsScreen = ({
           />
         </View>
         <View style={{ flex: 1 }}>
-          <Text style={{ fontSize: 13, fontWeight: 500 }}>NickName</Text>
-          {/* TODO: Add nickname from user data */}
+          <Text style={{ fontSize: 13, fontWeight: 500 }}>
+            {getUser.nickname && getUser.nickname}
+          </Text>
           <Text style={{ fontSize: 11, fontWeight: 400 }}>
-            {route?.params?.user && route.params.user.email}
+            {getUser.email && getUser.email}
           </Text>
         </View>
       </View>

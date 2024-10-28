@@ -1,5 +1,6 @@
 import "react-native-gesture-handler";
-import React, { useState } from "react";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
@@ -14,26 +15,29 @@ import MapScreen from "../screens/MapScreen";
 import CommentsScreen from "../screens/CommentsScreen";
 import LogoutButton from "../components/LogoutButton";
 import BackButton from "../components/BackButton";
+import { selectIsLoggedIn } from "../redux/auth/authSelectors";
+import { authActions } from "../redux/auth/authSlice";
 
 const AuthStack = createStackNavigator();
 const Tabs = createBottomTabNavigator();
 const PostsStack = createStackNavigator();
 
 const Navigation = () => {
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(true); // Update this line after refactoring
+  const isUserLoggedIn = useSelector(selectIsLoggedIn);
+  const dispatch = useDispatch();
 
-  const forwardBackButton = (navigation) => (
+  const forwardBackButton = (navigation: any) => (
     <BackButton onPress={() => navigation.goBack()} />
   );
 
   const logOut = () => <LogoutButton onPress={handleLogOut} />;
 
   const handleLogOut = () => {
-    setIsUserLoggedIn(false); // Update this line after refactoring
+    dispatch(authActions.onLogOut()); // TODO: add modal for confirmation
   };
 
   const TabNavigator = () => {
-    const getTabBarVisibility = (route) => {
+    const getTabBarVisibility = (route: any) => {
       const routeName = getFocusedRouteNameFromRoute(route) ?? "";
       if (routeName === "Comments" || routeName === "Map") {
         return { display: "none" };
@@ -41,12 +45,12 @@ const Navigation = () => {
       return { display: "flex" };
     };
 
-    const getHeaderVisibility = (route) => {
+    const getHeaderVisibility = (route: any) => {
       const routeName = getFocusedRouteNameFromRoute(route) ?? "";
       return !(routeName === "Comments" || routeName === "Map");
     };
 
-    const getTabIcon = (routeName, focused) => {
+    const getTabIcon = (routeName: string, focused: boolean) => {
       const icons = {
         PostsStack: focused ? "grid" : "grid-outline",
         CreatePosts: focused ? "add-circle" : "add-circle-outline",

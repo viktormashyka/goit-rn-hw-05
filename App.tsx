@@ -7,6 +7,9 @@ import { ActivityIndicator } from "react-native";
 import { useFonts } from "expo-font";
 import { colors } from "./styles/global";
 import Navigation from "./navigation/navigation";
+import { PersistGate } from "redux-persist/integration/react";
+import { Provider } from "react-redux";
+import { store, persistor } from "./redux/store";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -20,9 +23,16 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Navigation />
-      <StatusBar style="auto" />
-    </NavigationContainer>
+    <Provider store={store}>
+      <PersistGate
+        loading={<ActivityIndicator color={colors.orange} />}
+        persistor={persistor}
+      >
+        <NavigationContainer>
+          <Navigation />
+          <StatusBar style="auto" />
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 }

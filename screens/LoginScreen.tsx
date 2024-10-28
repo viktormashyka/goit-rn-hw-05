@@ -1,5 +1,5 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   View,
   Text,
@@ -18,6 +18,7 @@ import { colors } from "../styles/global";
 import Button from "../components/Button";
 import Link from "../components/Link";
 import Input from "../components/Input";
+import { authActions } from "../redux/auth/authSlice";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("screen");
 const InitialState = {
@@ -28,6 +29,8 @@ const InitialState = {
 const LoginScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
   const [user, setUser] = useState(InitialState);
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
+
+  const dispatch = useDispatch();
 
   const showPassword = () => {
     setIsPasswordVisible((prev) => !prev);
@@ -49,7 +52,9 @@ const LoginScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
       alert("Please fill in all fields.");
       return;
     }
-    navigation.navigate("Home", { screen: "Posts", params: { user } });
+    // navigation.navigate("Home", { screen: "Posts", params: { user } });
+
+    dispatch(authActions.onLogIn(user));
     setUser(InitialState);
   };
 
