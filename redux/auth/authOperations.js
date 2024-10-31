@@ -6,7 +6,7 @@ import {
   onAuthStateChanged,
   updateProfile,
 } from "firebase/auth";
-import { auth } from "../../firebase/config";
+import { auth } from "../../firebaseConfig";
 
 export const registerDB = createAsyncThunk(
   "auth/signup",
