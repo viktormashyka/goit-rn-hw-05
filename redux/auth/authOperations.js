@@ -1,22 +1,36 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
+
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
   updateProfile,
 } from "firebase/auth";
-import { auth } from "./config";
+import { auth } from "../../firebase/config";
 
-export const registerDB = async ({ email, password }) => {
-  try {
-    await createUserWithEmailAndPassword(auth, email, password);
-  } catch (error) {
-    throw error;
+export const registerDB = createAsyncThunk(
+  "auth/signup",
+  async (credentials, thunkAPI) => {
+    const { email, password } = credentials;
+    console.log({ credentials });
+    try {
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+      console.log("firebase res: ", res);
+    } catch (error) {
+      // throw error;
+      console.log(error.message);
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
-};
+);
 
-// або більш короткий запис цієї функції
-// export const registerDB = ({ email, password }) =>
-//   createUserWithEmailAndPassword(auth, email, password);
+export const logoutDB = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
+  try {
+    await signOut(auth);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
 
 export const authStateChanged = async (onChange = () => {}) => {
   onAuthStateChanged((user) => {
@@ -24,14 +38,21 @@ export const authStateChanged = async (onChange = () => {}) => {
   });
 };
 
-export const loginDB = async ({ email, password }) => {
-  try {
-    const credentials = await signInWithEmailAndPassword(auth, email, password);
-    return credentials.user;
-  } catch (error) {
-    throw error;
+export const loginDB = createAsyncThunk(
+  "auth/login",
+  async ({ email, password }, thunkAPI) => {
+    try {
+      const credentials = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      return credentials.user;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
-};
+);
 
 export const updateUserProfile = async (update) => {
   const user = auth.currentUser;

@@ -1,5 +1,5 @@
 import "react-native-gesture-handler";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -15,16 +15,23 @@ import MapScreen from "../screens/MapScreen";
 import CommentsScreen from "../screens/CommentsScreen";
 import LogoutButton from "../components/LogoutButton";
 import BackButton from "../components/BackButton";
-import { selectIsLoggedIn } from "../redux/auth/authSelectors";
+import { selectIsLoggedIn, selectUser } from "../redux/auth/authSelectors";
 import { authActions } from "../redux/auth/authSlice";
+import { registerDB } from "../redux/auth/authOperations";
 
 const AuthStack = createStackNavigator();
 const Tabs = createBottomTabNavigator();
 const PostsStack = createStackNavigator();
 
 const Navigation = () => {
-  const isUserLoggedIn = useSelector(selectIsLoggedIn);
   const dispatch = useDispatch();
+  const isUserLoggedIn = useSelector(selectIsLoggedIn);
+  const getUser = useSelector(selectUser);
+
+  useEffect(() => {
+    if (getUser.email && getUser.password)
+      dispatch(registerDB(getUser.email, getUser.password));
+  }, [getUser.email, getUser.password]);
 
   const forwardBackButton = (navigation: any) => (
     <BackButton onPress={() => navigation.goBack()} />

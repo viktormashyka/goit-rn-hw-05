@@ -113,6 +113,8 @@ const CreatePostsScreen = ({ navigation, route }) => {
         behavior={Platform.OS == "ios" ? "padding" : "height"}
       >
         <View style={styles.container}>
+          {/* TODO: Add background image as taken photo */}
+          {/* TODO: Add google places autocomplete  <GooglePlacesAoutocomplete />*/}
           <View style={styles.cameraWrapper}>
             <Camera
               {...{ toggleCameraFacing, facing, camera, handleTakePicture }}
