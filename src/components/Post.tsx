@@ -7,7 +7,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import { colors } from "../styles/global";
+import { colors } from "../../styles/global";
 import { SimpleLineIcons, FontAwesome5 } from "@expo/vector-icons";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("screen");
@@ -43,7 +43,7 @@ const Post = ({
             ? {
                 uri: pictureUrl,
               }
-            : require("../assets/images/default-image.png")
+            : require("../../assets/images/default-image.png")
         }
       />
     </View>

@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import uuid from "react-native-uuid";
-import { colors } from "../styles/global";
+import { colors } from "../../styles/global";
 import Comment from "../components/Comment";
 import Input from "../components/Input";
 import SendButton from "../components/SendButton";
@@ -59,7 +59,7 @@ const CommentsScreen = ({ navigation, route }) => {
               ? {
                   uri: item.pictureUrl,
                 }
-              : require("../assets/images/default-image.png")
+              : require("../../assets/images/default-image.png")
           }
         />
       </View>

@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { CameraView, CameraType } from "expo-camera";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { colors } from "../styles/global";
+import { colors } from "../../styles/global";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("screen");
 const cameraWidth = SCREEN_WIDTH - 32;

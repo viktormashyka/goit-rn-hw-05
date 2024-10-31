@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { StyleSheet, TextInput, View, ViewProps } from "react-native";
-import { colors } from "../styles/global";
+import { colors } from "../../styles/global";
 
 type InputProps = {
   value: string;

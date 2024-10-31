@@ -12,7 +12,7 @@ import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import uuid from "react-native-uuid";
-import { colors } from "../styles/global";
+import { colors } from "../../styles/global";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import Camera from "../components/Camera";

@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { NavigationProp } from "@react-navigation/native";
-import { colors } from "../styles/global";
+import { colors } from "../../styles/global";
 import Post, { PostProps } from "../components/Post";
 import LogoutButton from "../components/LogoutButton";
 import { authActions } from "../redux/auth/authSlice";
@@ -45,7 +45,7 @@ const ProfileScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
       <View style={styles.container}>
         <ImageBackground
           style={styles.backgroundImage}
-          source={require("../assets/images/backgroundImage.png")}
+          source={require("../../assets/images/backgroundImage.png")}
           resizeMode="cover"
         />
         <View style={styles.formContainer}>

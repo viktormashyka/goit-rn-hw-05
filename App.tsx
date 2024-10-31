@@ -6,10 +6,10 @@ import { StatusBar } from "expo-status-bar";
 import { ActivityIndicator } from "react-native";
 import { useFonts } from "expo-font";
 import { colors } from "./styles/global";
-import Navigation from "./navigation/navigation";
+import Navigation from "./src/navigation/navigation";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
-import { store, persistor } from "./redux/store";
+import { store, persistor } from "./src/redux/store";
 
 export default function App() {
   const [fontsLoaded] = useFonts({

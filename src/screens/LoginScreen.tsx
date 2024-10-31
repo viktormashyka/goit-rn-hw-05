@@ -14,7 +14,7 @@ import {
   TextInput,
 } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
-import { colors } from "../styles/global";
+import { colors } from "../../styles/global";
 import Button from "../components/Button";
 import Link from "../components/Link";
 import Input from "../components/Input";
@@ -71,7 +71,7 @@ const LoginScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
         <View style={styles.container}>
           <ImageBackground
             style={styles.backgroundImage}
-            source={require("../assets/images/backgroundImage.png")}
+            source={require("../../assets/images/backgroundImage.png")}
             resizeMode="cover"
           />
           <View style={styles.formContainer}>

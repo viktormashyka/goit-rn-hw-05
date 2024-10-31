@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { TouchableOpacity } from "react-native";
 
-import ArrowLeftIcon from "../icons/ArrowLeftIcon";
+import ArrowLeftIcon from "../../icons/ArrowLeftIcon";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 type Props = {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { View, Text, StyleSheet, Image, FlatList } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
-import { colors } from "../styles/global";
+import { colors } from "../../styles/global";
 import { RouteProp } from "@react-navigation/native";
 import Post, { PostProps } from "../components/Post";
 import { selectUser } from "../redux/auth/authSelectors";

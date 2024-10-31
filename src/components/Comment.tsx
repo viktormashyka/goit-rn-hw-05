@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { colors } from "../styles/global";
+import { colors } from "../../styles/global";
 
 const Comment = ({ comment }) => {
   return (

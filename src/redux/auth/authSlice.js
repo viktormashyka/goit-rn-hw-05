@@ -18,6 +18,7 @@ const authSlice = createSlice({
         state.status = "loading";
       })
       .addCase(registerDB.fulfilled, (state, action) => {
+        console.log("payload =>> ", action.payload);
         state.status = "succeeded";
         state.user.nickname = action.payload.nickname;
         state.user.email = action.payload.email;

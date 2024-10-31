@@ -6,7 +6,7 @@ import {
   onAuthStateChanged,
   updateProfile,
 } from "firebase/auth";
-import { auth } from "../../firebaseConfig";
+import { auth } from "../../../firebaseConfig";
 
 export const registerDB = createAsyncThunk(
   "auth/signup",
@@ -15,6 +15,7 @@ export const registerDB = createAsyncThunk(
     console.log({ credentials });
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
+
       console.log("firebase res: ", res);
     } catch (error) {
       // throw error;

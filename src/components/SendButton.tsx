@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import { TouchableOpacity } from "react-native";
 
-import ArrowUpButton from "../icons/ArrowUpIcon";
+import ArrowUpButton from "../../icons/ArrowUpIcon";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { colors } from "../styles/global";
+import { colors } from "../../styles/global";
 
 type Props = {
   onPress?: () => void;
