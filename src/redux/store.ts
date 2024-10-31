@@ -19,7 +19,7 @@ const persistConfig = {
 
 const reducer = persistReducer(persistConfig, rootReducer);
 
-export const store = configureStore({
+const store = configureStore({
   reducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -29,4 +29,12 @@ export const store = configureStore({
     }),
 });
 
-export const persistor = persistStore(store);
+const persistor = persistStore(store);
+
+// Експортуємо RootState та AppDispatch для використання у проекті
+export type RootState = ReturnType<typeof store.getState>;
+
+// Експортуємо тип `AppDispatch`, щоб використовувати у функціях
+export type AppDispatch = typeof store.dispatch;
+
+export default { store, persistor };

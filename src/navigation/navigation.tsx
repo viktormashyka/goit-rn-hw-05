@@ -15,9 +15,9 @@ import MapScreen from "../screens/MapScreen";
 import CommentsScreen from "../screens/CommentsScreen";
 import LogoutButton from "../components/LogoutButton";
 import BackButton from "../components/BackButton";
-import { selectIsLoggedIn, selectUser } from "../redux/auth/authSelectors";
-import { authActions } from "../redux/auth/authSlice";
-import { registerDB } from "../redux/auth/authOperations";
+import { selectUser } from "../redux/user/userSelectors";
+import { authStateChanged } from "../utils/auth";
+import { logoutDB } from "../utils/auth";
 
 const AuthStack = createStackNavigator();
 const Tabs = createBottomTabNavigator();
@@ -25,13 +25,13 @@ const PostsStack = createStackNavigator();
 
 const Navigation = () => {
   const dispatch = useDispatch();
-  const isUserLoggedIn = useSelector(selectIsLoggedIn);
   const getUser = useSelector(selectUser);
 
+  console.log("Navigation -> getUser", getUser);
+
   useEffect(() => {
-    if (getUser.email && getUser.password)
-      dispatch(registerDB(getUser.email, getUser.password));
-  }, [getUser.email, getUser.password]);
+    authStateChanged(dispatch);
+  }, [dispatch]);
 
   const forwardBackButton = (navigation: any) => (
     <BackButton onPress={() => navigation.goBack()} />
@@ -39,8 +39,12 @@ const Navigation = () => {
 
   const logOut = () => <LogoutButton onPress={handleLogOut} />;
 
-  const handleLogOut = () => {
-    dispatch(authActions.onLogOut()); // TODO: add modal for confirmation
+  const handleLogOut = async () => {
+    try {
+      await logoutDB(dispatch); // TODO: add modal for confirmation
+    } catch (err) {
+      console.error("Login error:", err);
+    }
   };
 
   const TabNavigator = () => {
@@ -165,7 +169,7 @@ const Navigation = () => {
     );
   };
 
-  return <>{isUserLoggedIn ? <TabNavigator /> : <AuthStackNavigator />}</>;
+  return <>{getUser ? <TabNavigator /> : <AuthStackNavigator />}</>;
 };
 
 export default Navigation;

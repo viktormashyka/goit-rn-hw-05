@@ -18,7 +18,7 @@ import { colors } from "../../styles/global";
 import Button from "../components/Button";
 import Link from "../components/Link";
 import Input from "../components/Input";
-import { authActions } from "../redux/auth/authSlice";
+import { loginDB } from "../utils/auth";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("screen");
 const InitialState = {
@@ -47,15 +47,17 @@ const LoginScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
     </TouchableOpacity>
   );
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!user.email || !user.password) {
       alert("Please fill in all fields.");
       return;
     }
-    // navigation.navigate("Home", { screen: "Posts", params: { user } });
-
-    dispatch(authActions.onLogIn(user));
-    setUser(InitialState);
+    try {
+      await loginDB({ email: user.email, password: user.password }, dispatch);
+      setUser(InitialState);
+    } catch (err) {
+      console.error("Login error:", err); // Логування помилок
+    }
   };
 
   const navigateToRegistration = () => {

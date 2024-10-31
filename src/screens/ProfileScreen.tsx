@@ -14,9 +14,9 @@ import { NavigationProp } from "@react-navigation/native";
 import { colors } from "../../styles/global";
 import Post, { PostProps } from "../components/Post";
 import LogoutButton from "../components/LogoutButton";
-import { authActions } from "../redux/auth/authSlice";
-import { selectUser } from "../redux/auth/authSelectors";
+import { selectUser } from "../redux/user/userSelectors";
 import { selectPosts } from "../redux/posts/postsSelectors";
+import { logoutDB } from "../utils/auth";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("screen");
 const avatarUrl =
@@ -36,8 +36,12 @@ const ProfileScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
     navigation.navigate("Map", { item });
   };
 
-  const handleLogOut = () => {
-    dispatch(authActions.onLogOut()); // TODO: add modal for confirmation
+  const handleLogOut = async () => {
+    try {
+      await logoutDB(dispatch); // TODO: add modal for confirmation
+    } catch (err) {
+      console.error("Login error:", err);
+    }
   };
 
   return (

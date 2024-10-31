@@ -5,7 +5,7 @@ import { NavigationProp } from "@react-navigation/native";
 import { colors } from "../../styles/global";
 import { RouteProp } from "@react-navigation/native";
 import Post, { PostProps } from "../components/Post";
-import { selectUser } from "../redux/auth/authSelectors";
+import { selectUser } from "../redux/user/userSelectors";
 import { selectPosts } from "../redux/posts/postsSelectors";
 import { postsActions } from "../redux/posts/postsSlice";
 

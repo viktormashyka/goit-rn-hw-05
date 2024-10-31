@@ -19,7 +19,7 @@ import { colors } from "../../styles/global";
 import Button from "../components/Button";
 import Link from "../components/Link";
 import Input from "../components/Input";
-import { registerDB } from "../redux/auth/authOperations";
+import { registerDB } from "../utils/auth";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("screen");
 const avatarUrl =
@@ -61,7 +61,7 @@ const RegistrationScreen = ({
       alert("Please fill in all fields.");
       return;
     }
-    dispatch(registerDB({ ...user }));
+    registerDB({ email: user.email, password: user.password });
     setUser(InitialState);
   };
 

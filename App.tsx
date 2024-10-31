@@ -9,7 +9,7 @@ import { colors } from "./styles/global";
 import Navigation from "./src/navigation/navigation";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
-import { store, persistor } from "./src/redux/store";
+import store from "./src/redux/store";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -23,10 +23,10 @@ export default function App() {
   }
 
   return (
-    <Provider store={store}>
+    <Provider store={store.store}>
       <PersistGate
         loading={<ActivityIndicator color={colors.orange} />}
-        persistor={persistor}
+        persistor={store.persistor}
       >
         <NavigationContainer>
           <Navigation />
