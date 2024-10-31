@@ -16,7 +16,7 @@ import CommentsScreen from "../screens/CommentsScreen";
 import LogoutButton from "../components/LogoutButton";
 import BackButton from "../components/BackButton";
 import { selectUser } from "../redux/user/userSelectors";
-import { authStateChanged } from "../utils/auth";
+import { authStateChanged, fetchUser } from "../utils/auth";
 import { logoutDB } from "../utils/auth";
 
 const AuthStack = createStackNavigator();
@@ -27,11 +27,20 @@ const Navigation = () => {
   const dispatch = useDispatch();
   const getUser = useSelector(selectUser);
 
-  console.log("Navigation -> getUser", getUser);
-
   useEffect(() => {
     authStateChanged(dispatch);
+    // const res = handleFetchUser();
+    // const res = fetchUser(dispatch);
+    // console.log("navigation -> fetchUser", res);
   }, [dispatch]);
+
+  // const handleFetchUser = async () => {
+  //   try {
+  //     await fetchUser(dispatch);
+  //   } catch (err) {
+  //     console.error("Fetch user error:", err);
+  //   }
+  // };
 
   const forwardBackButton = (navigation: any) => (
     <BackButton onPress={() => navigation.goBack()} />

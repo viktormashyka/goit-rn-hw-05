@@ -26,9 +26,10 @@ const avatarUrl =
   "https://s3-alpha-sig.figma.com/img/d7eb/2439/565ee2bb708d7a3f27c90a7cd3c9f0fa?Expires=1730073600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=CtHVPTuQB2H3rFOE7XWaC-UpOHFHPtGobXLWgjCZkGnv38OwOtuZksAAt4O0c2e4mgipUcqb~vTWB7cKDdlAGQ4xZA~gJrBaCn7ZEuv6d0oqMbWVMpVGmw29YRZKhhAuHecwcnOmNpCdN4aL5MggbUPVQuB4~YpPgLQUBCaet4K4rZqSCVSTGjydvpRnzErE9SI-bSaYnH17T81foyjbpPlCnOCUekmgzWEsgMyZw-WrpfgYEFxOLnYvICU64wKKQC5cB6YLLDuEz9NyLtxnY23gudoSLAZDGeugJYvcNORusfoShaoasR6bCka3-MFRrz8krBxYac3jAJVoDRRjVQ__";
 
 const InitialState = {
-  nickname: "",
   email: "",
   password: "",
+  displayName: "",
+  photoURL: "",
 };
 
 const RegistrationScreen = ({
@@ -39,7 +40,7 @@ const RegistrationScreen = ({
   const [user, setUser] = useState(InitialState);
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const showPassword = () => {
     setIsPasswordVisible((prev) => !prev);
@@ -57,11 +58,18 @@ const RegistrationScreen = ({
   );
 
   const handleSubmit = () => {
-    if (!user.nickname || !user.email || !user.password) {
+    if (!user.displayName || !user.email || !user.password) {
       alert("Please fill in all fields.");
       return;
     }
-    registerDB({ email: user.email, password: user.password });
+
+    console.log("register screen -> handleSubmit -> user ", user);
+    registerDB({
+      email: user.email,
+      password: user.password,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+    });
     setUser(InitialState);
   };
 
@@ -86,12 +94,12 @@ const RegistrationScreen = ({
               <Image
                 style={styles.avatar}
                 source={
-                  avatarUrl && {
-                    uri: avatarUrl,
+                  user.photoURL && {
+                    uri: user.photoURL,
                   }
                 }
               />
-              {avatarUrl ? (
+              {user.photoURL ? (
                 <View
                   style={[
                     styles.iconContainer,
@@ -126,11 +134,11 @@ const RegistrationScreen = ({
             <View style={{ gap: 16, marginBottom: 42 }}>
               {/* // TODO: Add validation */}
               <Input
-                value={user.nickname}
+                value={user.displayName}
                 autofocus={true}
                 placeholder="Логін"
-                onTextChange={(nickname) =>
-                  setUser((prev) => ({ ...prev, nickname }))
+                onTextChange={(displayName) =>
+                  setUser((prev) => ({ ...prev, displayName }))
                 }
               />
               <Input

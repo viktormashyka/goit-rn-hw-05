@@ -53,7 +53,8 @@ const LoginScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
       return;
     }
     try {
-      await loginDB({ email: user.email, password: user.password }, dispatch);
+      // await loginDB({ email: user.email, password: user.password }, dispatch);
+      await loginDB({ email: user.email, password: user.password });
       setUser(InitialState);
     } catch (err) {
       console.error("Login error:", err); // Логування помилок

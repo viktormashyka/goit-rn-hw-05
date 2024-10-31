@@ -5,6 +5,7 @@ type UserData = {
   uid: string;
   email: string;
   displayName?: string;
+  photoURL?: string;
 };
 
 // Функція для додавання документа до колекції
@@ -23,7 +24,7 @@ export const getUser = async (userId: string) => {
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    console.log("User data -> ", docSnap.data());
+    return docSnap.data();
   } else {
     console.log("Not such document!");
   }

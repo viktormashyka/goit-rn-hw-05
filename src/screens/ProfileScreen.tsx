@@ -57,12 +57,12 @@ const ProfileScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
             <Image
               style={styles.avatar}
               source={
-                avatarUrl && {
-                  uri: avatarUrl,
+                getUser.photoURL && {
+                  uri: getUser.photoURL,
                 }
               }
             />
-            {avatarUrl ? (
+            {getUser.photoURL ? (
               <View
                 style={[
                   styles.iconContainer,
@@ -95,7 +95,8 @@ const ProfileScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
             <LogoutButton onPress={handleLogOut} />
           </View>
           <Text style={[styles.title, { marginBottom: 32 }]}>
-            {getUser.nickname && getUser.nickname}
+            {getUser.displayName}
+            {/* // TODO: add functionality for editing user name */}
           </Text>
           <FlatList
             data={getPosts}

@@ -9,9 +9,6 @@ import { selectUser } from "../redux/user/userSelectors";
 import { selectPosts } from "../redux/posts/postsSelectors";
 import { postsActions } from "../redux/posts/postsSlice";
 
-const avatarUrl =
-  "https://s3-alpha-sig.figma.com/img/d7eb/2439/565ee2bb708d7a3f27c90a7cd3c9f0fa?Expires=1731283200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=KTQLAYuVQWqel0kgAaEdwxF9HrW8HHkoyKN7ci2UHo2VysK5vmXdB8mHzkslGUkLj7LXSkTfUQk86INSxUXqf5WGaw89We-iE7s8x2247acFwKjN73Gv2bB5t0-yY0aBMzWVHHZkcPXpz~F8puuejlZSRbZBRSG6jsL8ealNV7AZt--I-62LFcKQbi6ORl7aDaylwzcWn1~VwBBQh69OgnhvByIGxIg-17xF5KqNlRt2ibm-UZVqoaiWE3asFXNo17NE-6KpKx0Izh1SLsUkIlb9GjUeWd8hrnuxXwgba40Y-48ZBNZ0gHcta~YyVAvzcTry1w3eY1mwQ-9sF-uSbw__";
-
 type PostsScreenRouteProp = RouteProp<
   { params: { post?: PostProps; userComment?: string } },
   "params"
@@ -60,15 +57,15 @@ const PostsScreen = ({
           <Image
             style={styles.avatar}
             source={
-              avatarUrl && {
-                uri: avatarUrl,
+              getUser.photoURL && {
+                uri: getUser.photoURL,
               }
             }
           />
         </View>
         <View style={{ flex: 1 }}>
           <Text style={{ fontSize: 13, fontWeight: 500 }}>
-            {getUser.nickname && getUser.nickname}
+            {getUser.displayName && getUser.displayName}
           </Text>
           <Text style={{ fontSize: 11, fontWeight: 400 }}>
             {getUser.email && getUser.email}

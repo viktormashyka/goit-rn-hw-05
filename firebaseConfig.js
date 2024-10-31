@@ -2,8 +2,6 @@
 import { initializeApp } from "firebase/app";
 // Функція для підключення авторизації в проект
 import { initializeAuth, getReactNativePersistence } from "firebase/auth";
-// // Функція для підключення авторизації в проект
-// import { getAuth } from "firebase/auth";
 // Функція для підключення бази даних у проект
 import { getFirestore } from "firebase/firestore";
 // Функція для підключення сховища файлів в проект

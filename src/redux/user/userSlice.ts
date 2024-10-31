@@ -1,15 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type UserState = {
-  userInfo: {
-    uid: string;
-    email: string | null;
-    displayName: string | null;
-  } | null;
+export type UserState = {
+  userInfo:
+    | {
+        uid: string;
+        email: string;
+        displayName?: string;
+        photoURL?: string;
+      }
+    | undefined;
 };
 
 const initialState: UserState = {
-  userInfo: null,
+  userInfo: undefined,
 };
 
 const userSlice = createSlice({
@@ -20,7 +23,7 @@ const userSlice = createSlice({
       state.userInfo = action.payload;
     },
     clearUserInfo(state) {
-      state.userInfo = null;
+      state.userInfo = undefined;
     },
   },
 });
