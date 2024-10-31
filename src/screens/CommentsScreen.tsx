@@ -14,6 +14,7 @@ import Comment from "../components/Comment";
 import Input from "../components/Input";
 import SendButton from "../components/SendButton";
 import { postsActions } from "../redux/posts/postsSlice";
+import { getCurrentDateTime } from "../utils/getCurrentTime";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("screen");
 const pictureWidth = SCREEN_WIDTH - 32;
@@ -23,6 +24,8 @@ const CommentsScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const [comment, setComment] = useState("");
   const { item } = route.params;
+
+  const dateTime = getCurrentDateTime();
 
   const handleSendComment = () => {
     console.log("TODO: add functionality to send comment from authorized user");
@@ -34,7 +37,7 @@ const CommentsScreen = ({ navigation, route }) => {
       id: uuid.v4(),
       comment,
       author: "Anonym", // TODO: replace with author data : { id: authorID, nickname: "User", avatar: "https://i.pravatar.cc/150" }
-      dateTime: "09 червня, 2020 | 08:40", // TODO: replace with current date
+      dateTime: dateTime,
     };
 
     dispatch(postsActions.onAddComment({ id: item.id, comment: userComment }));
