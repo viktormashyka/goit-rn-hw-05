@@ -3,5 +3,6 @@ const { getDefaultConfig } = require("expo/metro-config");
 
 /** @type {import('expo/metro-config').MetroConfig} */
 const config = getDefaultConfig(__dirname);
+config.resolver.sourceExts.push("js", "json", "ts", "tsx", "cjs"); // add all needed extensions using in the app
 
 module.exports = config;
