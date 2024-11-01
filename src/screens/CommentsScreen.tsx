@@ -71,6 +71,7 @@ const CommentsScreen = ({ navigation, route }) => {
         outerStyles={{ borderRadius: 50 }}
       />
     </View>
+    // FIXME: add keyboard avoiding view
   );
 };
 

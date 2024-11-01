@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useDispatch } from "react-redux";
 import {
   View,
   Text,
@@ -19,8 +18,6 @@ import Button from "../components/Button";
 import Camera from "../components/Camera";
 import * as Location from "expo-location";
 import { addPostToDB } from "../utils/postsCollection";
-import { getPostsFromDB } from "../utils/postsCollection";
-import { setPosts } from "../redux/post/postSlice";
 
 const InitialState = {
   title: "",
@@ -37,7 +34,6 @@ const CreatePostsScreen = ({ navigation, route }) => {
   const [permission, requestPermission] = useCameraPermissions();
   const isEnabled = location.title && location.locality;
   // const isEnabled = photoUrl && location.title && location.locality; TODO: uncomment after adding photoUrl
-  const dispatch = useDispatch();
 
   useEffect(() => {
     // Geolocation
@@ -45,7 +41,7 @@ const CreatePostsScreen = ({ navigation, route }) => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
-        console.log("Permission to access location was denied");
+        console.log("Permission to access location was denied"); // TODO: add modal
       }
 
       let currentLocation = await Location.getCurrentPositionAsync({});
@@ -99,7 +95,7 @@ const CreatePostsScreen = ({ navigation, route }) => {
     }
     const post = {
       id: uuid.v4(),
-      pictureUrl: photoUrl,
+      pictureUrl: photoUrl, // TODO: add photoUrl to firebase storage
       pictureName: location.title,
       comments: [],
       locality: location.locality,

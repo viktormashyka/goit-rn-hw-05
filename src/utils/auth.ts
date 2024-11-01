@@ -34,14 +34,14 @@ export const registerDB = async ({
 
     const { user } = credentials;
 
-    console.log("registerDB -> res: ", credentials);
+    console.log("registerDB -> res: ", credentials); // TODO: remove it as not needed
 
     const res = await updateProfile(user, {
       displayName,
       photoURL,
     }); // FIXME: updateProfile is not working properly. On Posts screen user is displayed as Anonymous
 
-    console.log("registerDB -> updateProfile res: ", res);
+    console.log("registerDB -> updateProfile res: ", res); // TODO: remove it as not needed
 
     await addUser(user.uid, {
       email: user.email || "",
@@ -58,7 +58,7 @@ export const registerDB = async ({
 export const loginDB = async ({ email, password }: AuthCredentials) => {
   try {
     const credentials = await signInWithEmailAndPassword(auth, email, password);
-    console.log("loginDB -> res: ", credentials);
+    console.log("loginDB -> res: ", credentials); // TODO: remove it as not needed
   } catch (error) {
     console.log("LoginDB error -> ", error); // TODO: handle error
   }

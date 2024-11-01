@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import {
   View,
   Text,
@@ -11,7 +10,6 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Platform,
-  TextInput,
 } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import { colors } from "../../styles/global";
@@ -29,8 +27,6 @@ const InitialState = {
 const LoginScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
   const [user, setUser] = useState(InitialState);
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
-
-  // const dispatch = useDispatch();
 
   const showPassword = () => {
     setIsPasswordVisible((prev) => !prev);
@@ -53,7 +49,6 @@ const LoginScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
       return;
     }
     try {
-      // await loginDB({ email: user.email, password: user.password }, dispatch);
       await loginDB({ email: user.email, password: user.password });
       setUser(InitialState);
     } catch (err) {

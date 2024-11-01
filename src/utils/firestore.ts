@@ -23,9 +23,9 @@ type UserData = {
 export const addUser = async (userId: string, userData: UserData) => {
   try {
     await setDoc(doc(db, "users", userId), userData);
-    console.log("User added -> ", userId);
+    console.log("User added -> ", userId); // TODO: remove it as not needed
   } catch (error) {
-    console.error("Error adding user:", error);
+    console.error("Error adding user:", error); // TODO: handle error
   }
 };
 
@@ -37,7 +37,7 @@ export const getUser = async (userId: string) => {
   if (docSnap.exists()) {
     return docSnap.data();
   } else {
-    console.log("Not such document!");
+    console.log("Not such document!"); // TODO: handle error
   }
 };
 
@@ -53,19 +53,19 @@ export const updateUserInFirestore = async (user: any) => {
       },
       { merge: true } // merge: true - для оновлення існуючого документа або створення нового
     );
-    console.log("User data saved to Firestore:", user.uid);
+    console.log("User data saved to Firestore:", user.uid); // TODO: remove it as not needed
   } catch (error) {
-    console.error("Error saving user data to Firestore:", error);
+    console.error("Error saving user data to Firestore:", error); // TODO: handle error
   }
 };
 
 export const addPost = async (postData: Post) => {
   try {
     const docRef = await addDoc(collection(db, "posts"), postData);
-    console.log("Document written with ID: ", docRef.id);
+    console.log("Document written with ID: ", docRef.id); // TODO: remove it as not needed
   } catch (error) {
     console.error("Error adding document: ", error);
-    throw error;
+    throw error; // TODO: handle error
   }
 };
 
@@ -75,11 +75,10 @@ export const getPosts = async (uid) => {
   try {
     const snapshot = await getDocs(collection(db, "posts"));
     const posts = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    console.log("getPosts -> posts", posts);
     return posts;
   } catch (error) {
     console.error("Error getting documents: ", error);
-    throw error;
+    throw error; // TODO: handle error
   }
 };
 
@@ -91,7 +90,6 @@ export const getPostDocId = async (postId) => {
 
     if (!querySnapshot.empty) {
       const doc = querySnapshot.docs[0]; // assuming only one match per ID
-      console.log(doc.id, " => ", doc.data());
       return { docId: doc.id, docData: doc.data() };
     } else {
       console.error("No document found with given postId");
@@ -99,7 +97,7 @@ export const getPostDocId = async (postId) => {
     }
   } catch (error) {
     console.error("Error fetching document ID:", error);
-    throw error;
+    throw error; // TODO: handle error
   }
 };
 
@@ -110,8 +108,8 @@ export const updatePost = async (docId, currentComments, newComment) => {
     await updateDoc(postRef, {
       comments: [...currentComments, newComment],
     });
-    console.log("Document updated successfully");
+    console.log("Document updated successfully"); // TODO: remove it as not needed
   } catch (error) {
-    console.error("Error updating document:", error);
+    console.error("Error updating document:", error); // TODO: handle error
   }
 };
