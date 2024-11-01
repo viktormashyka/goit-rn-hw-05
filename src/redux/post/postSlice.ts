@@ -8,16 +8,17 @@ type Comment = {
   dateTime: string;
 };
 
-type Post = {
+export type Post = {
   id: string;
   pictureUrl: string;
   pictureName: string;
   comments: Comment[];
   locality: string;
   geoLocation?: { latitude: number; longitude: number };
+  uid: string;
 };
 
-type PostState = {
+export type PostState = {
   data: Post[];
 };
 
@@ -47,49 +48,13 @@ const postSlice = createSlice({
       );
       state.data[index].comments.push(action.payload.comment);
     },
-    // setPostInfo(state, action: PayloadAction<PostState["data"]>) {
-    //   state.data = action.payload;
-    // },
-    // clearPostInfo(state) {
-    //   state.data = [];
-    // },
+    setPosts(state, action: PayloadAction<UserState["userInfo"]>) {
+      state.data = action.payload;
+    },
   },
 });
 
-export const { addPost, removePost, updatePost, addComment } =
+export const { addPost, removePost, updatePost, addComment, setPosts } =
   postSlice.actions;
 
 export default postSlice.reducer;
-
-// import { createSlice } from "@reduxjs/toolkit";
-// import initialData from "../../../data/data";
-
-// const initialState = {
-//   data: [...initialData],
-// };
-
-// const postSlice = createSlice({
-//   name: "post",
-//   initialState,
-//   reducers: {
-//     onAddPost: (state, { payload }) => {
-//       state.data.push(payload);
-//     },
-//     onRemovePost: (state, { payload }) => {
-//       state.data = state.data.filter((post) => post.id !== payload);
-//     },
-//     onUpdatePost: (state, { payload }) => {
-//       const index = state.data.findIndex((post) => post.id === payload.id);
-//       state.data[index] = payload;
-//     },
-//     onAddComment: (state, { payload }) => {
-//       console.log({ payload });
-//       const index = state.data.findIndex((post) => post.id === payload.id);
-//       state.data[index].comments.push(payload.comment);
-//     },
-//   },
-// });
-
-// export const postActions = postSlice.actions;
-
-// export default postSlice.reducer;

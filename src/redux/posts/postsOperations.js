@@ -24,7 +24,7 @@ const getDataFromFirestore = async () => {
 			// Перевіряємо у консолі отримані дані
       snapshot.forEach((doc) => console.log(`${doc.id} =>`, doc.data()));
 			// Повертаємо масив обʼєктів у довільній формі
-			return snapshot.map((doc) => ({ id: doc.id, data: doc.data() });
+			return snapshot.map((doc) => ({ id: doc.id, data: doc.data() })
     } catch (error) {
       console.log(error);
 			throw error;

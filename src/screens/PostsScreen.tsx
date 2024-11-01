@@ -6,11 +6,13 @@ import { colors } from "../../styles/global";
 import { RouteProp } from "@react-navigation/native";
 import Post, { PostProps } from "../components/Post";
 import { selectUser } from "../redux/user/userSelectors";
-import { selectPosts } from "../redux/posts/postsSelectors";
+import { selectPostData } from "../redux/post/postSelectors";
 import { postsActions } from "../redux/posts/postsSlice";
+import { getPostsFromDB } from "../utils/post";
+import { setPosts } from "../redux/post/postSlice";
 
 type PostsScreenRouteProp = RouteProp<
-  { params: { post?: PostProps; userComment?: string } },
+  { params: { refresh?: boolean; userComment?: string } },
   "params"
 >;
 
@@ -23,7 +25,7 @@ const PostsScreen = ({
 }) => {
   const dispatch = useDispatch();
 
-  const getPosts = useSelector(selectPosts);
+  const getPosts = useSelector(selectPostData);
 
   const getUser = useSelector(selectUser);
 
@@ -35,14 +37,28 @@ const PostsScreen = ({
   };
 
   useEffect(() => {
-    if (route.params?.post) {
-      dispatch(postsActions.onAddPost(route.params.post!));
+    const fetchPosts = async () => {
+      try {
+        const posts = await getPostsFromDB();
+        dispatch(setPosts(posts));
+      } catch (err) {
+        console.error("Fetch user error:", err);
+      }
+    };
+    if (route.params?.refresh) {
+      fetchPosts();
     }
+  }, [route.params?.refresh, dispatch]);
+
+  useEffect(() => {
+    // if (route.params?.post) {
+    //   dispatch(postsActions.onAddPost(route.params.post!));
+    // }
 
     if (route.params?.userComment) {
       dispatch(postsActions.onAddComment(route.params.userComment));
     }
-  }, [route.params?.post, route.params?.userComment]);
+  }, [route.params?.userComment]);
 
   return (
     <View style={styles.container}>

@@ -1,14 +1,15 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
+import { Post } from "../redux/post/postSlice";
 
 type UserData = {
   uid: string;
   email: string;
   displayName?: string;
   photoURL?: string;
-};
+}; // TODO: move to types
 
-// Функція для додавання документа до колекції
+// Функція для додавання документа до колекції user
 export const addUser = async (userId: string, userData: UserData) => {
   try {
     await setDoc(doc(db, "users", userId), userData);
@@ -18,7 +19,7 @@ export const addUser = async (userId: string, userData: UserData) => {
   }
 };
 
-// Функція для отримання документа з колекції
+// Функція для отримання документа з колекції user
 export const getUser = async (userId: string) => {
   const docRef = doc(db, "users", userId);
   const docSnap = await getDoc(docRef);
@@ -30,7 +31,7 @@ export const getUser = async (userId: string) => {
   }
 };
 
-// Функція для запису даних користувача у Firestore
+// Функція для запису даних користувача у Firestore колекції user
 export const updateUserInFirestore = async (user: any) => {
   try {
     await setDoc(
@@ -47,3 +48,13 @@ export const updateUserInFirestore = async (user: any) => {
     console.error("Error saving user data to Firestore:", error);
   }
 };
+
+// // Функція для додавання документа до колекції post
+// export const addPost = async (userId: string, postData: Post) => {
+//   try {
+//     await setDoc(doc(db, "posts", userId), postData);
+//     console.log("Post added -> ", userId);
+//   } catch (error) {
+//     console.error("Error adding post:", error);
+//   }
+// };

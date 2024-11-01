@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import {
   View,
   Text,
@@ -16,8 +17,10 @@ import { colors } from "../../styles/global";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import Camera from "../components/Camera";
-
 import * as Location from "expo-location";
+import { addPostToDB } from "../utils/post";
+import { getPostsFromDB } from "../utils/post";
+import { setPosts } from "../redux/post/postSlice";
 
 const InitialState = {
   title: "",
@@ -34,6 +37,7 @@ const CreatePostsScreen = ({ navigation, route }) => {
   const [permission, requestPermission] = useCameraPermissions();
   const isEnabled = location.title && location.locality;
   // const isEnabled = photoUrl && location.title && location.locality; TODO: uncomment after adding photoUrl
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // Geolocation
@@ -88,7 +92,7 @@ const CreatePostsScreen = ({ navigation, route }) => {
     // return <View />;
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!isEnabled) {
       alert("Please fill in all fields.");
       return;
@@ -101,7 +105,9 @@ const CreatePostsScreen = ({ navigation, route }) => {
       locality: location.locality,
       geoLocation,
     };
-    navigation.navigate("Posts", { post });
+    await addPostToDB(post);
+    // navigation.navigate("Posts", { post });
+    navigation.navigate("Posts", { refresh: true });
     setLocation(InitialState);
     setPhotoUrl("");
   };

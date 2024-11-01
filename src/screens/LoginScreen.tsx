@@ -30,7 +30,7 @@ const LoginScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
   const [user, setUser] = useState(InitialState);
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const showPassword = () => {
     setIsPasswordVisible((prev) => !prev);
