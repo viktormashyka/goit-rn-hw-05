@@ -8,13 +8,11 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import uuid from "react-native-uuid";
 import { colors } from "../../styles/global";
 import Comment from "../components/Comment";
 import Input from "../components/Input";
 import SendButton from "../components/SendButton";
-import { postsActions } from "../redux/posts/postsSlice";
-import { getCurrentDateTime } from "../utils/getCurrentTime";
+import { updatePostAtDB } from "../utils/postsCollection";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("screen");
 const pictureWidth = SCREEN_WIDTH - 32;
@@ -25,23 +23,13 @@ const CommentsScreen = ({ navigation, route }) => {
   const [comment, setComment] = useState("");
   const { item } = route.params;
 
-  const dateTime = getCurrentDateTime();
-
   const handleSendComment = () => {
-    console.log("TODO: add functionality to send comment from authorized user");
-    if (!comment) {
+    if (!comment.trim()) {
       alert("Please fill in field.");
       return;
     }
-    const userComment = {
-      id: uuid.v4(),
-      comment,
-      author: "Anonym", // TODO: replace with author data : { id: authorID, nickname: "User", avatar: "https://i.pravatar.cc/150" }
-      dateTime: dateTime,
-    };
-
-    dispatch(postsActions.onAddComment({ id: item.id, comment: userComment }));
-    navigation.navigate("Posts");
+    updatePostAtDB(item.id, { comment });
+    navigation.navigate("Posts", { refresh: true });
   };
 
   const sendComment = (

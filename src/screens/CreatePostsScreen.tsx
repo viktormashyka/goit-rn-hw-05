@@ -18,8 +18,8 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import Camera from "../components/Camera";
 import * as Location from "expo-location";
-import { addPostToDB } from "../utils/post";
-import { getPostsFromDB } from "../utils/post";
+import { addPostToDB } from "../utils/postsCollection";
+import { getPostsFromDB } from "../utils/postsCollection";
 import { setPosts } from "../redux/post/postSlice";
 
 const InitialState = {
@@ -106,7 +106,6 @@ const CreatePostsScreen = ({ navigation, route }) => {
       geoLocation,
     };
     await addPostToDB(post);
-    // navigation.navigate("Posts", { post });
     navigation.navigate("Posts", { refresh: true });
     setLocation(InitialState);
     setPhotoUrl("");

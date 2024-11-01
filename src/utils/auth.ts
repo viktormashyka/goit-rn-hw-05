@@ -55,20 +55,14 @@ export const registerDB = async ({
 };
 
 // Функція для логіну користувача та збереження його в Redux
-export const loginDB = async ({ email, password }: AuthCredentials) =>
-  // dispatch: AppDispatch
-  {
-    try {
-      const credentials = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      console.log("loginDB -> res: ", credentials);
-    } catch (error) {
-      console.log("LoginDB error -> ", error); // TODO: handle error
-    }
-  };
+export const loginDB = async ({ email, password }: AuthCredentials) => {
+  try {
+    const credentials = await signInWithEmailAndPassword(auth, email, password);
+    console.log("loginDB -> res: ", credentials);
+  } catch (error) {
+    console.log("LoginDB error -> ", error); // TODO: handle error
+  }
+};
 
 // Функція для логауту
 export const logoutDB = async (dispatch: AppDispatch) => {
@@ -124,10 +118,6 @@ export const fetchUser = async (dispatch: AppDispatch) => {
       if (userInfo) {
         dispatch(
           setUserInfo({
-            // uid: userInfo.uid,
-            // email: userInfo.email,
-            // displayName: userInfo.displayName,
-            // photoURL: userInfo.photoURL,
             ...userInfo,
           })
         );

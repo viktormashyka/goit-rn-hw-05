@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { View, Text, StyleSheet, Image, FlatList } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
@@ -7,12 +7,11 @@ import { RouteProp } from "@react-navigation/native";
 import Post, { PostProps } from "../components/Post";
 import { selectUser } from "../redux/user/userSelectors";
 import { selectPostData } from "../redux/post/postSelectors";
-import { postsActions } from "../redux/posts/postsSlice";
-import { getPostsFromDB } from "../utils/post";
+import { getPostsFromDB } from "../utils/postsCollection";
 import { setPosts } from "../redux/post/postSlice";
 
 type PostsScreenRouteProp = RouteProp<
-  { params: { refresh?: boolean; userComment?: string } },
+  { params: { refresh?: boolean } },
   "params"
 >;
 
@@ -37,28 +36,20 @@ const PostsScreen = ({
   };
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const posts = await getPostsFromDB();
-        dispatch(setPosts(posts));
-      } catch (err) {
-        console.error("Fetch user error:", err);
-      }
-    };
+    fetchPosts();
     if (route.params?.refresh) {
-      fetchPosts();
+      fetchPosts(); // FIXME: should render at first time
     }
   }, [route.params?.refresh, dispatch]);
 
-  useEffect(() => {
-    // if (route.params?.post) {
-    //   dispatch(postsActions.onAddPost(route.params.post!));
-    // }
-
-    if (route.params?.userComment) {
-      dispatch(postsActions.onAddComment(route.params.userComment));
+  const fetchPosts = async () => {
+    try {
+      const posts = await getPostsFromDB();
+      dispatch(setPosts(posts));
+    } catch (err) {
+      console.error("Fetch user error:", err);
     }
-  }, [route.params?.userComment]);
+  };
 
   return (
     <View style={styles.container}>

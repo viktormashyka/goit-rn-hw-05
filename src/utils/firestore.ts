@@ -1,4 +1,14 @@
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  getDoc,
+  doc,
+  updateDoc,
+  setDoc,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { Post } from "../redux/post/postSlice";
 
@@ -49,12 +59,59 @@ export const updateUserInFirestore = async (user: any) => {
   }
 };
 
-// // Функція для додавання документа до колекції post
-// export const addPost = async (userId: string, postData: Post) => {
-//   try {
-//     await setDoc(doc(db, "posts", userId), postData);
-//     console.log("Post added -> ", userId);
-//   } catch (error) {
-//     console.error("Error adding post:", error);
-//   }
-// };
+export const addPost = async (postData: Post) => {
+  try {
+    const docRef = await addDoc(collection(db, "posts"), postData);
+    console.log("Document written with ID: ", docRef.id);
+  } catch (error) {
+    console.error("Error adding document: ", error);
+    throw error;
+  }
+};
+
+// Функція для отримання документів з колекції post
+export const getPosts = async (uid) => {
+  // TODO: add options to get posts by user ID
+  try {
+    const snapshot = await getDocs(collection(db, "posts"));
+    const posts = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    console.log("getPosts -> posts", posts);
+    return posts;
+  } catch (error) {
+    console.error("Error getting documents: ", error);
+    throw error;
+  }
+};
+
+// Функція для отримання документа з колекції post за postId
+export const getPostDocId = async (postId) => {
+  try {
+    const q = query(collection(db, "posts"), where("id", "==", postId));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const doc = querySnapshot.docs[0]; // assuming only one match per ID
+      console.log(doc.id, " => ", doc.data());
+      return { docId: doc.id, docData: doc.data() };
+    } else {
+      console.error("No document found with given postId");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching document ID:", error);
+    throw error;
+  }
+};
+
+// Функція для оновлення документа в колекції post
+export const updatePost = async (docId, currentComments, newComment) => {
+  try {
+    const postRef = doc(db, "posts", docId);
+    await updateDoc(postRef, {
+      comments: [...currentComments, newComment],
+    });
+    console.log("Document updated successfully");
+  } catch (error) {
+    console.error("Error updating document:", error);
+  }
+};

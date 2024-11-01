@@ -6,7 +6,9 @@ const Comment = ({ comment }) => {
   return (
     <View style={styles.commentsWrapper}>
       <View style={styles.commentAvatarContainer}>
-        <Text style={styles.commentAvatar}>{comment?.author[0]}</Text>
+        <Text style={styles.commentAvatar}>
+          {comment?.author.displayName[0]}
+        </Text>
       </View>
       <View style={styles.commentContainer}>
         <Text style={styles.text}>{comment?.comment}</Text>

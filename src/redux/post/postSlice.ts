@@ -48,6 +48,12 @@ const postSlice = createSlice({
       );
       state.data[index].comments.push(action.payload.comment);
     },
+    updateComments: (state, action: PayloadAction<PostState["data"]>) => {
+      const index = state.data.findIndex(
+        (post) => post.id === action.payload.id
+      );
+      state.data[index].comments = action.payload.comments;
+    },
     setPosts(state, action: PayloadAction<UserState["userInfo"]>) {
       state.data = action.payload;
     },
