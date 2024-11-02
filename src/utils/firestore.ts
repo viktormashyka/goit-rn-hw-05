@@ -105,9 +105,13 @@ export const getPostDocId = async (postId) => {
 export const updatePost = async (docId, currentComments, newComment) => {
   try {
     const postRef = doc(db, "posts", docId);
-    await updateDoc(postRef, {
-      comments: [...currentComments, newComment],
-    });
+    await updateDoc(
+      postRef,
+      {
+        comments: [...currentComments, newComment],
+      },
+      { merge: true }
+    );
     console.log("Document updated successfully"); // TODO: remove it as not needed
   } catch (error) {
     console.error("Error updating document:", error); // TODO: handle error

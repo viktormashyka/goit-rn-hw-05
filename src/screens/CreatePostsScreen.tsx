@@ -102,7 +102,7 @@ const CreatePostsScreen = ({ navigation, route }) => {
       geoLocation,
     };
     await addPostToDB(post);
-    navigation.navigate("Posts", { refresh: true });
+    navigation.navigate("Posts");
     setLocation(InitialState);
     setPhotoUrl("");
   };

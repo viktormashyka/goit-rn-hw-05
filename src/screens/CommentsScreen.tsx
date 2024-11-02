@@ -29,7 +29,7 @@ const CommentsScreen = ({ navigation, route }) => {
       return;
     }
     updatePostAtDB(item.id, { comment });
-    navigation.navigate("Posts", { refresh: true });
+    navigation.navigate("Posts");
   };
 
   const sendComment = (

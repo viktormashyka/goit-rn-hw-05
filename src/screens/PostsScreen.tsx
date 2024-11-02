@@ -1,27 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { View, Text, StyleSheet, Image, FlatList } from "react-native";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, useFocusEffect } from "@react-navigation/native";
 import { colors } from "../../styles/global";
-import { RouteProp } from "@react-navigation/native";
 import Post, { PostProps } from "../components/Post";
 import { selectUser } from "../redux/user/userSelectors";
 import { selectPostData } from "../redux/post/postSelectors";
 import { getPostsFromDB } from "../utils/postsCollection";
 import { setPosts } from "../redux/post/postSlice";
 
-type PostsScreenRouteProp = RouteProp<
-  { params: { refresh?: boolean } },
-  "params"
->;
-
-const PostsScreen = ({
-  navigation,
-  route,
-}: {
-  navigation: NavigationProp<any>;
-  route: PostsScreenRouteProp;
-}) => {
+const PostsScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
   const dispatch = useDispatch();
 
   const getPosts = useSelector(selectPostData);
@@ -35,12 +23,12 @@ const PostsScreen = ({
     navigation.navigate("Map", { item });
   };
 
-  useEffect(() => {
-    fetchPosts();
-    if (route.params?.refresh) {
-      fetchPosts(); // FIXME: should render at first time
-    }
-  }, [route.params?.refresh, dispatch]);
+  useFocusEffect(
+    useCallback(() => {
+      // Initial and fetch everytime when PostScreen in focus
+      fetchPosts();
+    }, [])
+  );
 
   const fetchPosts = async () => {
     try {
