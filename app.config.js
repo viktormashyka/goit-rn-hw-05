@@ -19,5 +19,10 @@ export default {
       },
       package: "com.goitsocialsapp",
     },
+    extra: {
+      eas: {
+        projectId: "311384ad-d951-4026-8a18-569b84381732",
+      },
+    },
   },
 };
