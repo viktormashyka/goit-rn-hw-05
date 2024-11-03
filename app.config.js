@@ -7,10 +7,10 @@ export default {
     slug: "goit-socials-app",
     version: "1.0.0",
     orientation: "portrait",
-    icon: path.resolve(__dirname, "assets/images/icon.png"),
+    // icon: path.resolve(__dirname, "assets/images/icon.png"), // FIXME:: build error, path not found
     userInterfaceStyle: "light",
     splash: {
-      image: path.resolve(__dirname, "assets/images/splash.png"),
+      // image: path.resolve(__dirname, "assets/images/splash.png"),
       resizeMode: "contain",
       backgroundColor: "#ffffff",
     },
@@ -29,16 +29,16 @@ export default {
         },
       },
       adaptiveIcon: {
-        foregroundImage: path.resolve(
-          __dirname,
-          "assets/images/adaptive-icon.png"
-        ),
+        // foregroundImage: path.resolve(
+        //   __dirname,
+        //   "assets/images/adaptive-icon.png"
+        // ),
         backgroundColor: "#ffffff",
       },
       package: "com.goitsocialsapp",
     },
     web: {
-      favicon: "./assets/images/favicon.png",
+      // favicon: path.resolve(__dirname, "assets/images/favicon.png"),
     },
     extra: {
       eas: {
