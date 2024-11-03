@@ -28,6 +28,7 @@ web-build/
 *.log
 
 # iOS files
+ios/
 ios/Pods/
 ios/DerivedData/
 ios/build/
@@ -37,6 +38,7 @@ ios/*.xcodeproj/xcuserdata
 ios/*.xcodeproj/project.xcworkspace
 
 # Android files
+android/
 android/.gradle/
 android/app/build/
 android/local.properties
